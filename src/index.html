@@ -1,28 +1,81 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <title>Rendercosas</title>
-    <base href="/" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link rel="icon" type="image/x-icon" href="favicon.ico" />
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
-    <script>
-      pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
-    </script>
-    <style>
-      @media print {
-        body, html, app-root, #pdf-container, canvas {
-          display: none !important;
-          visibility: hidden !important;
-          height: 0 !important;
-          width: 0 !important;
-          overflow: hidden !important;
-        }
+<head>
+  <meta charset="utf-8" />
+  <title>PDF Viewer</title>
+  <base href="/" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="icon" type="image/x-icon" href="favicon.ico" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+  <script>
+    pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+  </script>
+<style>
+html, body {
+  margin: 0;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  overflow: hidden; /* hide scrollbars */
+  background: #fff;
+}
+/* hide scrollbars for all browsers */
+html::-webkit-scrollbar { display: none; }
+body::-webkit-scrollbar { display: none; }
+html { -ms-overflow-style: none; scrollbar-width: none; }
+
+#pdf-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 100%;
+  width: auto;
+  overflow-x: auto;
+  margin-top: 1rem;
+}
+/* hide scrollbars on container */
+#pdf-container::-webkit-scrollbar { display: none; }
+#pdf-container { -ms-overflow-style: none; scrollbar-width: none; }
+
+canvas {
+  max-width: 100%;
+  height: auto;
+  margin-bottom: 1rem;
+  display: block;
+}
+
+@media print {
+  body, html, app-root, #pdf-container, canvas {
+    display: none !important;
+    visibility: hidden !important;
+    height: 0 !important;
+    width: 0 !important;
+    overflow: hidden !important;
+  }
+}
+</style>
+  </style>
+</head>
+<body>
+  <div id="pdf-container"></div>
+  <script>
+    const url = 'helados artesanales.pdf';
+    const container = document.getElementById('pdf-container');
+    pdfjsLib.getDocument(url).promise.then(pdf => {
+      for (let i = 1; i <= pdf.numPages; i++) {
+        pdf.getPage(i).then(page => {
+          const scale = window.innerWidth >= 992 ? 1.5 : 1;
+          const viewport = page.getViewport({ scale });
+          const canvas = document.createElement('canvas');
+          const context = canvas.getContext('2d');
+          canvas.width = viewport.width;
+          canvas.height = viewport.height;
+          page.render({ canvasContext: context, viewport: viewport });
+          container.appendChild(canvas);
+        });
       }
-    </style>
-  </head>
-  <body>
-    <app-root></app-root>
-  </body>
+    });
+  </script>
+</body>
 </html>
