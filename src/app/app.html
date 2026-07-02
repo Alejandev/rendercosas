@@ -1,13 +1,1 @@
-<div class="viewer-container">
-  @if (loading()) {
-    <div class="loading-state">
-      <span>Cargando documento...</span>
-    </div>
-  }
-  @if (error()) {
-    <div class="error-state">
-      <span>{{ error() }}</span>
-    </div>
-  }
-  <div id="pdf-container" class="pdf-container"></div>
-</div>
+<router-outlet></router-outlet>
