@@ -5,5 +5,6 @@ export const routes: Routes = [
   { path: '', component: PdfViewerComponent, data: { pdfUrl: 'helados artesanales.pdf' } },
   { path: 'curso', component: PdfViewerComponent, data: { pdfUrl: 'curso.pdf' } },
   { path: 'informe_arq', component: PdfViewerComponent, data: { pdfUrl: 'informe_arq.pdf' } },
+  { path: 'expo2026', component: PdfViewerComponent, data: { pdfUrl: 'Dossier_Expo_2026.pdf' } },
   { path: '**', redirectTo: '' }
 ];
