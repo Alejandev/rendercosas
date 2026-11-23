@@ -12,6 +12,12 @@ export const routes: Routes = [
     data: { pdfUrl: 'Dossier_Expo_2026.pdf' }
   },
   {
+    path: 'expo_2026_v2',
+    component: PdfViewerComponent,
+    title: 'Tendedero de Arte - Expo 2026',
+    data: { pdfUrl: 'Dosier_Expo_2026_V2.pdf' }
+  },
+  {
     path: 'informe_cierre',
     component: PdfViewerComponent,
     title: 'Informe Cierre Dpto 701',
